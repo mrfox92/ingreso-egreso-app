@@ -1,16 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducer';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styles: []
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
-  constructor( public authService: AuthService ) { }
+  loading: boolean;
+  /* Declaramos una propiedad para manejar las suscripciones de una forma mas eficiente
+  Esta propiedad nos permite llamar el unsubscribe cuando se destruye el componente.
+  Todo esto con fines de evitar fugas de memoria */
+  subscription: Subscription;
+
+  constructor(
+    public authService: AuthService,
+    public store: Store<AppState>
+  ) { }
 
   ngOnInit() {
+    this.subscription = this.store.select('ui').subscribe( ui => this.loading = ui.isLoading );
+  }
+
+  ngOnDestroy() {
+    //  destruimos el objeto una vez que el componente es destruido
+    this.subscription.unsubscribe();
   }
 
   onSubmit( data: any ) {
