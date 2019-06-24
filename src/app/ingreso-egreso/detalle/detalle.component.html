@@ -2,24 +2,33 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Detalle de ingreso egreso</h4>
+                <h4 class="card-title">Detalle de ingresos y egresos ( {{ items.length }} )</h4>
 
-                <table class="table">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Descripción</th>
                             <th>Monto</th>
                             <th>Tipo</th>
-                            <th></th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Descripción</td>
-                            <td>Monto</td>
-                            <td>Tipo</td>
-                            <td>acciones</td>
+                        <tr *ngFor="let item of items | ordenIngresoEgreso">
+                            <td>{{ item.descripcion }}</td>
+                            <td>{{ item.monto | currency:'CLP' | space }}</td>
+                            <td class="text-center">
+                                <span class="badge" [ngClass]="{ 'badge-success': item.tipo === 'ingreso', 'badge-danger': item.tipo === 'egreso'}">
+                                    {{ item.tipo }}
+                                </span>
+                            </td>
+                            <td>
+                                <button (click)="borrarItem( item )" class="btn btn-danger" type="button">
+                                    <i class="fa fa-trash"></i>
+                                    Borrar
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
 

@@ -7,18 +7,21 @@ import { ActionReducerMap } from '@ngrx/store';
 //    importamos el reducer de la UI
 import * as fromUI from './shared/ui.reducer';
 import * as fromAuth from './auth/auth.reducer';
+import * as fromIngresoEgreso from './ingreso-egreso/ingreso-egreso.reducer';
 
 //    creamos la interface del estado de la app
 export interface AppState {
     ui: fromUI.State;
-    user: fromAuth.AuthState;
+    auth: fromAuth.AuthState;
+    ingresoEgreso: fromIngresoEgreso.IngresoEgresoState;
 }
 
 //    creamos la configuracion global de los reducers
 
 export const appReducers: ActionReducerMap<AppState> = {
     ui: fromUI.uiReducer,
-    user: fromAuth.authReducer
+    auth: fromAuth.authReducer,
+    ingresoEgreso: fromIngresoEgreso.ingresoEgresoReducer
 };
 
 
