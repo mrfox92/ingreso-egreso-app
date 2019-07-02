@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, CanLoad } from '@angular/router';
 import { AuthService } from './auth.service';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanLoad {
 
   constructor( public authService: AuthService ) { }
 
@@ -14,5 +15,10 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     //  retornamos el resultado de la funcion para comprobar si hay un usuario autenticado o no
     return this.authService.isAuth();
+  }
+
+  canLoad() {
+    //  Se retorna un observable, para ello tenemos que ejecutar la suscripcion una unica vez y luego finalizar la suscripcion
+    return this.authService.isAuth().pipe( take(1) );
   }
 }

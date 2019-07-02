@@ -2,11 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { dashboardRoutes } from './dashboard/dashboard.routes';
-//    Guards
 import { AuthGuard } from './auth/auth.guard';
 
+//    Habilitamos el lazyload para realizar la carga de las rutas hijas del modulo ingreso-egreso
 
 const routes: Routes = [
 
@@ -14,9 +12,8 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     {
         path: '',
-        component: DashboardComponent,
-        children: dashboardRoutes,
-        canActivate: [ AuthGuard ]
+        loadChildren: './ingreso-egreso/ingreso-egreso.module#IngresoEgresoModule',
+        canLoad: [ AuthGuard ]
     },
     { path: '**', pathMatch: 'full', redirectTo: '' }
 

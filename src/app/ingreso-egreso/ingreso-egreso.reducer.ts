@@ -1,9 +1,16 @@
 import * as fromIngresoEgreso from './ingreso-egreso.actions';
 import { IngresoEgreso } from './ingreso-egreso-model';
+import { AppState } from '../app.reducer';
 
 //    creamos una interface para manejar el estado de ingresos y egresos
 export interface IngresoEgresoState {
     items: IngresoEgreso[];
+}
+
+//    modifica la interfaz del appState, tomamos el AppState y extendemos sus propiedades
+
+export interface AppState extends AppState {
+    ingresoEgreso: IngresoEgresoState;
 }
 
 //    realizamos la inicializacion del estado de ingresos y egresos
